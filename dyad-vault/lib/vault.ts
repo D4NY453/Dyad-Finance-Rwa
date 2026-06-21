@@ -1,0 +1,50 @@
+// ==========================================
+// Dyad Finance - contract configuration
+// ==========================================
+
+export const VAULT_CONTRACT_ADDRESS =
+  "0x7c023497E7b4B97DAc3954929A306C27BD3c7600"
+
+// DyadPoints (DPT) - soulbound points token.
+// TODO: paste the deployed DyadPoints address on Sepolia here.
+export const DYAD_POINTS_ADDRESS = "PEGAR_AQUI_DIRECCION_DPT"
+
+export const DYAD_POINTS_CONFIGURED =
+  DYAD_POINTS_ADDRESS.startsWith("0x") && DYAD_POINTS_ADDRESS.length === 42
+
+// Partial ABI - enough for the UI to operate. Extend with the full ABI later.
+export const VAULT_ABI = [
+  "function deposit() external payable",
+  "function redeemStable(uint256 _stableAmount) external",
+  "function redeemVolatile(uint256 _volatileAmount) external",
+  "function stableToken() external view returns (address)",
+  "function volatileToken() external view returns (address)",
+  "function getLatestPrice() external view returns (uint256)"
+] as const
+
+// DyadPoints ABI - mintPoints is gated to minters/owner on-chain.
+export const DYAD_POINTS_ABI = [
+  "function mintPoints(address to, uint256 amount) external",
+  "function balanceOf(address account) external view returns (uint256)",
+  "function isMinter(address account) external view returns (bool)",
+] as const
+
+export const ERC20_ABI = [
+  "function balanceOf(address account) external view returns (uint256)",
+  "function totalSupply() external view returns (uint256)"
+] as const
+
+// Amount of DPT minted per airdrop claim (in whole tokens).
+export const AIRDROP_AMOUNT = 100n
+
+export const SEPOLIA_CHAIN_ID = 11155111n
+
+export const SEPOLIA_PARAMS = {
+  chainId: "0xaa36a7",
+  chainName: "Sepolia",
+  nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: ["https://rpc.sepolia.org"],
+  blockExplorerUrls: ["https://sepolia.etherscan.io"],
+}
+
+export type ActionType = "deposit" | "redeemStable" | "redeemVolatile"
