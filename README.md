@@ -1,41 +1,63 @@
-# v4-template
-### **A template for writing Uniswap v4 Hooks 🦄**
+# 🏗️ Dyad Finance RWA (Real World Assets)
 
-[`Use this Template`](https://github.com/saucepoint/v4-template/generate)
+> **DeFi para la Construcción:** Tokeniza tu esfuerzo arquitectónico. Convierte el progreso físico de tu obra en liquidez inmediata.
 
-1. The example hook [Counter.sol](src/Counter.sol) demonstrates the `beforeSwap()` and `afterSwap()` hooks
-2. The test template [Counter.t.sol](test/Counter.t.sol) preconfigures the v4 pool manager, test tokens, and test liquidity.
+## 📖 ¿De qué trata este proyecto?
+
+La industria de la construcción y los bienes raíces sufre de un problema masivo de **iliquidez**. Los desarrolladores bloquean millones de dólares en cemento y ladrillos, y para obtener más capital, dependen de bancos lentos y burocráticos.
+
+**Dyad Finance RWA** es un ecosistema DeFi (Finanzas Descentralizadas) que soluciona esto permitiendo a los constructores subir evidencia de su progreso físico (ej. Obra Gris terminada) para que un Oráculo descentralizado lo certifique mediante un **NFT ERC-721**. Una vez certificado, nuestra **Bóveda (VaultV2)** usa ese NFT como colateral para emitir dólares digitales (`usdJ`), dándole liquidez inmediata al constructor sin pasar por un banco.
 
 ---
 
-### Local Development (Anvil)
+## 🛠️ Arquitectura Técnica
 
-*requires [foundry](https://book.getfoundry.sh)*
+El proyecto está dividido principalmente en la carpeta `/dyad-vault`, que contiene todo el ecosistema de Smart Contracts y el Frontend:
 
-```
-forge install
-forge test
-```
+### 1. Smart Contracts (Solidity)
+Ubicados en `dyad-vault/contracts/`:
+* **`VaultV2.sol`**: El corazón del protocolo. Recibe colateral (Cripto o Bienes Raíces) y emite dos tokens: el token estable (`usdJ`) y el token volátil (`jETH`) que absorbe el riesgo del mercado. Adicionalmente cobra un **1% de comisión de estructuración** directo a la Tesorería.
+* **`RWACertificate.sol`**: Un contrato NFT (ERC-721) que actúa como el certificado inmutable de tasación de la propiedad. Solo puede ser emitido por oráculos autorizados.
+* **`RealEstateOracle.sol`**: Oráculo encargado de tasar la plusvalía física de los inmuebles.
+* **`MockUSDC.sol` & `MockDex.sol`**: Una simulación de liquidez de mercado para permitir a los usuarios intercambiar instantáneamente sus `usdJ` a `USDC` o `ETH` real de Sepolia.
 
-Because v4 exceeds the bytecode limit of Ethereum and it's *business licensed*, we can only deploy & test hooks on [anvil](https://book.getfoundry.sh/anvil/).
+### 2. Frontend (React + Next.js)
+Ubicado en `dyad-vault/components/vault/`:
+* **Interfaz Drag & Drop (IPFS simulado)**: Permite a los arquitectos subir fotos de su progreso físico.
+* **Sistema de Trazabilidad RWA**: Muestra el desglose transparente de la plusvalía y los fees generados.
+* **Insta-Swap UI**: Interfaz de un solo clic inspirada en Relay.link para intercambiar divisas al instante.
 
+---
+
+## 🚀 Flujo de Usuario (Cómo probarlo)
+
+1. **Prueba de Valor**: El constructor entra a la plataforma y sube la foto de su obra.
+2. **Aprobación RWA**: El archivo simula subirse a IPFS. El administrador (Oráculo) aprueba la foto, minteando un NFT Dorado en la billetera del usuario.
+3. **Minteo**: El botón verde se desbloquea, permitiendo extraer (mintear) `usdJ` contra el valor tasado de la propiedad, menos un 1% de comisión matemática.
+4. **Insta-Swap**: En la pestaña "⚡ Swap", el constructor intercambia sus `usdJ` recién impresos por `USDC` o `Ethereum`, llevándose dinero real al bolsillo.
+
+---
+
+## 💻 Instalación Local
+
+1. Clona este repositorio:
 ```bash
-# start anvil, with a larger code limit
-anvil --code-size-limit 30000
-
-# in a new terminal
-forge script script/Counter.s.sol \
-    --rpc-url http://localhost:8545 \
-    --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
-    --code-size-limit 30000 \
-    --broadcast
+git clone https://github.com/D4NY453/dyad-finance-rwa.git
 ```
+2. Entra a la carpeta de la aplicación:
+```bash
+cd UniswapV4/dyad-vault
+```
+3. Instala las dependencias:
+```bash
+npm install
+```
+4. Corre el servidor de desarrollo:
+```bash
+npm run dev
+```
+5. Abre `http://localhost:3000` en tu navegador. Necesitarás tener MetaMask instalado y configurado en la red **Sepolia**.
 
 ---
 
-Additional resources:
-
-[v4-periphery](https://github.com/uniswap/v4-periphery) contains advanced hook implementations that serve as a great reference
-
-[v4-core](https://github.com/uniswap/v4-core)
-
+*Proyecto creado para Hackathon. Los contratos de esta rama están desplegados actualmente en la red de pruebas Sepolia.*
