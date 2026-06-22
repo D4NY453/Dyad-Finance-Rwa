@@ -113,22 +113,18 @@ npm run dev
 ```
 5. Abre `http://localhost:3000` en tu navegador. Necesitarás tener MetaMask instalado y configurado en la red **Sepolia**.
 
----
 
-*Proyecto creado para Hackathon. Los contratos de esta rama están desplegados actualmente en la red de pruebas Sepolia.*
-
+## Proyecto creado para Hackathon. Los contratos de esta rama están desplegados actualmente en la red de pruebas Sepolia.*
 
 
 
 ## Visiones
 
-
-
 #   RWA
 
 El Oráculo Inmobiliario de Dyad Finance
 
- soluciona el problema de la iliquidez de los activos del mundo real. Si un usuario tokeniza su propiedad, nuestro contrato RealEstateOracle almacena su valor avalado por peritos. Si el usuario realiza mejoras estructurales a la propiedad, el tasador actualiza el oráculo. Inmediatamente, la Bóveda de Dyad Finance lee este nuevo precio y permite al usuario emitir más dólares estables (usdJ) contra esa nueva plusvalía, obteniendo liquidez para sus próximos proyectos de construcción sin tocar un banco
+soluciona el problema de la iliquidez de los activos del mundo real. Si un usuario tokeniza su propiedad, nuestro contrato RealEstateOracle almacena su valor avalado por peritos. Si el usuario realiza mejoras estructurales a la propiedad, el tasador actualiza el oráculo. Inmediatamente, la Bóveda de Dyad Finance lee este nuevo precio y permite al usuario emitir más dólares estables (usdJ) contra esa nueva plusvalía, obteniendo liquidez para sus próximos proyectos de construcción sin tocar un banco
 
 La Arquitectura del Oráculo RWA
 
@@ -137,7 +133,6 @@ Para que el sistema sea confiable y no centralizado, no podemos dejar que el due
 Los Tasadores (Appraisers): Son billeteras autorizadas que pertenecen a empresas de tasación reales, peritos inmobiliarios o un comité del protocolo.
 
 El Proceso: Cuando la propiedad mejora estructuralmente, se suben los comprobantes o los videos render del antes y el después a un sistema descentralizado (como IPFS). Los tasadores evalúan la propiedad y envían la nueva valoración al contrato inteligente.
-
 
 
 
