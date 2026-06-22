@@ -10,6 +10,7 @@ import { ActionCard } from "./action-card"
 import { ToastStack } from "./toast-stack"
 import { RwaPanel } from "./rwa-panel"
 import { PortfolioPanel } from "./portfolio-panel"
+import { SwapPanel } from "./swap-panel"
 
 export function VaultDashboard() {
   const {
@@ -29,7 +30,7 @@ export function VaultDashboard() {
   } = useVault()
 
   const connected = Boolean(account)
-  const [activeTab, setActiveTab] = useState<'crypto' | 'rwa' | 'portfolio'>('crypto')
+  const [activeTab, setActiveTab] = useState<'crypto' | 'rwa' | 'portfolio' | 'swap'>('crypto')
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
@@ -147,6 +148,22 @@ export function VaultDashboard() {
               <Wallet className="h-5 w-5 relative z-10" />
               <span className="relative z-10">Mi Billetera</span>
             </button>
+
+            <button
+              onClick={() => setActiveTab('swap')}
+              className={`relative flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
+                activeTab === 'swap' ? "text-white" : "text-muted-foreground hover:text-white"
+              }`}
+            >
+              {activeTab === 'swap' && (
+                <motion.div
+                  layoutId="mainTabs"
+                  className="absolute inset-0 rounded-full bg-vault-stable/20 border border-vault-stable/50 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <span className="relative z-10">⚡ Swap</span>
+            </button>
           </div>
         </div>
 
@@ -251,6 +268,18 @@ export function VaultDashboard() {
                 transition={{ duration: 0.3 }}
               >
                 <PortfolioPanel balances={balances} />
+              </motion.div>
+            )}
+
+            {activeTab === 'swap' && (
+              <motion.div
+                key="swap"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <SwapPanel balances={balances} onRefresh={loadBalances} />
               </motion.div>
             )}
           </AnimatePresence>

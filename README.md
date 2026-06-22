@@ -6,7 +6,7 @@
 
 La industria de la construcción y los bienes raíces sufre de un problema masivo de **iliquidez**. Los desarrolladores bloquean millones de dólares en cemento y ladrillos, y para obtener más capital, dependen de bancos lentos y burocráticos.
 
-**Dyad Finance RWA** es un ecosistema DeFi (Finanzas Descentralizadas) que soluciona esto permitiendo a los constructores subir evidencia de su progreso físico (ej. Obra Gris terminada) para que un Oráculo descentralizado lo certifique mediante un **NFT ERC-721**. Una vez certificado, nuestra **Bóveda (VaultV2)** usa ese NFT como colateral para emitir dólares digitales (`usdJ`), dándole liquidez inmediata al constructor sin pasar por un banco.
+**Dyad Finance RWA** es un ecosistema DeFi (Finanzas Descentralizadas) que soluciona esto permitiendo a los constructores subir evidencia de su progreso físico (ej. Obra Gris terminada) para que un Oráculo descentralizado lo certifique mediante un **NFT ERC-721**. Una vez certificado, nuestra **Bóveda (VaultV2)** usa ese NFT como colateral para emitir dólares digitales (`usdJ`), dándole liquidez inmediata al constructor
 
 ---
 
@@ -25,7 +25,7 @@ Ubicados en `dyad-vault/contracts/`:
 Ubicado en `dyad-vault/components/vault/`:
 * **Interfaz Drag & Drop (IPFS simulado)**: Permite a los arquitectos subir fotos de su progreso físico.
 * **Sistema de Trazabilidad RWA**: Muestra el desglose transparente de la plusvalía y los fees generados.
-* **Insta-Swap UI**: Interfaz de un solo clic inspirada en Relay.link para intercambiar divisas al instante.
+* **Insta-Swap UI**: Interfaz de un solo clic para intercambiar divisas al instante.
 
 ---
 

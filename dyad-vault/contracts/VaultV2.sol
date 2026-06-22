@@ -88,7 +88,7 @@ contract VaultV2 is Ownable {
         if (ethToReturn > 0) payable(msg.sender).transfer(ethToReturn);
     }
 
-    // --- NUEVA LOGICA RWA ---
+    // --- LOGICA RWA ---
     function mintUsdJAgainstRWA(uint256 _propertyId) external {
         // 1. Obtener la plusvalía dictada por el Oráculo
         (uint256 propertyPriceInUSD, ) = realEstateOracle.getLatestPrice(_propertyId);

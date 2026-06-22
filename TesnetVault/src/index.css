@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+@theme {
+  --color-on-background: #dde4e5;
+  --color-primary: #8aebff;
+  --color-surface: #0e1416;
+  --color-on-surface-variant: #bbc9cd;
+  --color-on-surface: #dde4e5;
+  --color-surface-container: #1a2122;
+  --color-primary-fixed-dim: #2fd9f4;
+  --color-secondary: #c0c1ff;
+  --color-tertiary: #61f6b9;
+  
+  --spacing-unit-xs: 4px;
+  --spacing-unit-sm: 8px;
+  --spacing-unit-md: 16px;
+  --spacing-unit-lg: 32px;
+  --spacing-unit-xl: 64px;
+  --spacing-gutter: 24px;
+  --spacing-container-max: 1280px;
+
+  --font-body-md: Inter;
+  --font-headline-xl: Geist;
+  --font-headline-lg: Geist;
+  --font-data-lg: 'Geist Mono';
+  --font-data-sm: 'Geist Mono';
+  --font-label-caps: Geist;
+}
+
+@layer utilities {
+  .text-body-md {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  .text-headline-xl {
+    font-size: 48px;
+    line-height: 56px;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+  .text-data-lg {
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .text-headline-lg {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+  .text-data-sm {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.15em;
+    font-weight: 400;
+  }
+  .text-label-caps {
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.data-glow {
+  text-shadow: 0 0 10px currentColor;
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.inner-glow-cyan {
+  box-shadow: inset 0 0 8px rgba(47, 217, 244, 0.2);
+}
+
+.ease-in-out-expo {
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.active-scale:active {
+  transform: scale(0.95);
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #0e1416;
+}

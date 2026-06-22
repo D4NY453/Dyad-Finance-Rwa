@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lunar Vault | Celestial Authority</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Geist:wght@400;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        .data-glow {
+            text-shadow: 0 0 10px currentColor;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .inner-glow-cyan {
+            box-shadow: inset 0 0 8px rgba(47, 217, 244, 0.2);
+        }
+        .ease-in-out-expo {
+            transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .active-scale:active {
+            transform: scale(0.95);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#dde4e5",
+                        "primary": "#8aebff",
+                        "surface": "#0e1416",
+                        "on-surface-variant": "#bbc9cd",
+                        "on-surface": "#dde4e5",
+                        "surface-container": "#1a2122",
+                        "primary-fixed-dim": "#2fd9f4",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit-md": "16px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "unit-lg": "32px",
+                        "unit-xl": "64px",
+                        "gutter": "24px",
+                        "unit-xs": "4px",
+                        "unit-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "data-lg": ["Geist Mono"],
+                        "data-sm": ["Geist Mono"],
+                        "label-caps": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "data-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "data-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30 min-h-screen overflow-x-hidden">
+<!-- Global Background Shader -->
+
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/10 shadow-[0_0_15px_rgba(47,217,244,0.1)]">
+<div class="max-w-container-max mx-auto h-16 flex justify-between items-center px-unit-md md:px-unit-lg">
+<div class="flex items-center gap-unit-md">
+<span class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter">LUNAR VAULT</span>
+</div>
+<nav class="hidden md:flex items-center gap-unit-lg">
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="#">Vaults</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="#">Governance</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors" href="#">Analytics</a>
+</nav>
+<div class="flex items-center gap-unit-sm">
+<div class="hidden lg:flex items-center px-unit-sm py-1 border border-white/10 rounded bg-white/5">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse mr-2"></div>
+<span class="font-label-caps text-[10px] text-primary">Sepolia</span>
+</div>
+<button class="bg-primary text-on-primary px-unit-md py-2 font-label-caps text-label-caps rounded-lg hover:brightness-110 active:scale-95 transition-all duration-200 ease-in-out-expo shadow-[0_0_10px_rgba(138,235,255,0.3)]">
+                    Connect Wallet
+                </button>
+</div>
+</div>
+</header>
+<main class="relative z-10 pt-24 pb-32 max-w-container-max mx-auto px-unit-md">
+<!-- Operational Hub -->
+<section class="mb-unit-xl">
+<div class="flex flex-col md:flex-row justify-between items-end mb-unit-lg border-l-2 border-primary pl-unit-md">
+<div>
+<h2 class="font-label-caps text-label-caps text-primary/70 uppercase tracking-widest">System Overview</h2>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Operational Hub</h1>
+</div>
+<div class="hidden md:block text-right">
+<p class="font-data-sm text-data-sm text-on-surface-variant">SYNC STATUS: NOMINAL</p>
+<p class="font-data-sm text-data-sm text-primary">BLOCK: 18,294,031</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- ETH Balance Card -->
+<div class="glass-panel p-unit-lg rounded-xl flex flex-col gap-unit-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-unit-sm opacity-20">
+<span class="material-symbols-outlined text-4xl" data-icon="rocket">rocket</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">ETHEREUM RESERVE</span>
+<div class="flex flex-col">
+<span class="font-data-lg text-[32px] text-primary data-glow">12.8450 ETH</span>
+<span class="font-data-sm text-data-sm text-on-surface-variant opacity-60">≈ $24,192.42 USD</span>
+</div>
+<div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3 shadow-[0_0_8px_rgba(138,235,255,0.5)]"></div>
+</div>
+</div>
+<!-- usdJ Balance Card -->
+<div class="glass-panel p-unit-lg rounded-xl flex flex-col gap-unit-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-unit-sm opacity-20">
+<span class="material-symbols-outlined text-4xl" data-icon="shield">shield</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">STABLE usdJ</span>
+<div class="flex flex-col">
+<span class="font-data-lg text-[32px] text-tertiary data-glow">42,000.00 usdJ</span>
+<span class="font-data-sm text-data-sm text-on-surface-variant opacity-60">PEG: 1.0001 USD</span>
+</div>
+<div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-full shadow-[0_0_8px_rgba(97,246,185,0.5)]"></div>
+</div>
+</div>
+<!-- vETH Balance Card -->
+<div class="glass-panel p-unit-lg rounded-xl flex flex-col gap-unit-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-unit-sm opacity-20">
+<span class="material-symbols-outlined text-4xl" data-icon="auto_graph">auto_graph</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">VOLATILE vETH</span>
+<div class="flex flex-col">
+<span class="font-data-lg text-[32px] text-secondary data-glow">4.1209 vETH</span>
+<span class="font-data-sm text-data-sm text-on-surface-variant opacity-60">LEVERAGE: 3.5x</span>
+</div>
+<div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-1/3 shadow-[0_0_8px_rgba(192,193,255,0.5)]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Mission Controls -->
+<section>
+<div class="flex items-center gap-unit-md mb-unit-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Mission Controls</h2>
+<div class="h-[1px] flex-grow bg-gradient-to-r from-white/20 to-transparent"></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Orbital Deposit -->
+<div class="glass-panel p-unit-lg rounded-xl flex flex-col gap-unit-lg border-primary/20 hover:border-primary/50 transition-colors duration-500">
+<div class="flex items-center gap-unit-sm">
+<span class="material-symbols-outlined text-primary" data-icon="rocket">rocket</span>
+<h3 class="font-label-caps text-label-caps text-primary">ORBITAL DEPOSIT</h3>
+</div>
+<div class="space-y-unit-sm">
+<label class="font-label-caps text-[10px] text-on-surface-variant">INPUT ETH AMOUNT</label>
+<div class="relative">
+<input class="w-full bg-black/40 border border-white/10 rounded-lg p-unit-md text-data-lg font-data-lg focus:border-primary focus:ring-0 outline-none transition-all duration-300" placeholder="0.00" type="text"/>
+<button class="absolute right-unit-md top-1/2 -translate-y-1/2 font-label-caps text-primary hover:text-white transition-colors">MAX</button>
+</div>
+</div>
+<button class="w-full bg-primary text-black font-label-caps text-label-caps py-unit-md rounded-lg hover:shadow-[0_0_20px_rgba(138,235,255,0.4)] active:scale-95 transition-all duration-300 ease-in-out-expo uppercase tracking-widest">
+                        Initialize Deposit
+                    </button>
+</div>
+<!-- Stable Extraction -->
+<div class="glass-panel p-unit-lg rounded-xl flex flex-col gap-unit-lg border-tertiary/20 hover:border-tertiary/50 transition-colors duration-500">
+<div class="flex items-center gap-unit-sm">
+<span class="material-symbols-outlined text-tertiary" data-icon="shield">shield</span>
+<h3 class="font-label-caps text-label-caps text-tertiary">STABLE EXTRACTION</h3>
+</div>
+<div class="space-y-unit-sm">
+<label class="font-label-caps text-[10px] text-on-surface-variant">INPUT usdJ AMOUNT</label>
+<div class="relative">
+<input class="w-full bg-black/40 border border-white/10 rounded-lg p-unit-md text-data-lg font-data-lg focus:border-tertiary focus:ring-0 outline-none transition-all duration-300" placeholder="0.00" type="text"/>
+<button class="absolute right-unit-md top-1/2 -translate-y-1/2 font-label-caps text-tertiary hover:text-white transition-colors">MAX</button>
+</div>
+</div>
+<button class="w-full bg-tertiary text-black font-label-caps text-label-caps py-unit-md rounded-lg hover:shadow-[0_0_20px_rgba(97,246,185,0.4)] active:scale-95 transition-all duration-300 ease-in-out-expo uppercase tracking-widest">
+                        Secure Redemption
+                    </button>
+</div>
+<!-- Volatile Surge -->
+<div class="glass-panel p-unit-lg rounded-xl flex flex-col gap-unit-lg border-secondary/20 hover:border-secondary/50 transition-colors duration-500">
+<div class="flex items-center gap-unit-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_graph">auto_graph</span>
+<h3 class="font-label-caps text-label-caps text-secondary">VOLATILE SURGE</h3>
+</div>
+<div class="space-y-unit-sm">
+<label class="font-label-caps text-[10px] text-on-surface-variant">INPUT vETH AMOUNT</label>
+<div class="relative">
+<input class="w-full bg-black/40 border border-white/10 rounded-lg p-unit-md text-data-lg font-data-lg focus:border-secondary focus:ring-0 outline-none transition-all duration-300" placeholder="0.00" type="text"/>
+<button class="absolute right-unit-md top-1/2 -translate-y-1/2 font-label-caps text-secondary hover:text-white transition-colors">MAX</button>
+</div>
+</div>
+<button class="w-full bg-secondary text-black font-label-caps text-label-caps py-unit-md rounded-lg hover:shadow-[0_0_20px_rgba(192,193,255,0.4)] active:scale-95 transition-all duration-300 ease-in-out-expo uppercase tracking-widest">
+                        Execute Leverage
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Notification HUD -->
+<div class="fixed bottom-unit-lg right-unit-lg z-[60] flex flex-col gap-unit-sm pointer-events-none" id="notification-hud">
+<!-- Ready State Example -->
+<div class="glass-panel p-unit-md rounded-lg border-primary/40 flex items-start gap-unit-md min-w-[320px] pointer-events-auto transform translate-y-0 opacity-100 transition-all duration-500 animate-in fade-in slide-in-from-right-10">
+<div class="p-unit-xs bg-primary/20 rounded">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="info">info</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-caps text-[10px] text-primary">SYSTEM READY</span>
+<span class="font-data-sm text-[9px] text-on-surface-variant opacity-50">NOW</span>
+</div>
+<p class="text-body-md text-sm text-on-surface leading-snug">Lunar sequence initiated. Awaiting wallet authentication.</p>
+</div>
+<button class="text-on-surface-variant hover:text-white" onclick="this.parentElement.remove()">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<!-- Side Image Decor (Bento-like background accent) -->
+<div class="fixed bottom-0 left-0 w-64 h-64 opacity-10 pointer-events-none">
+<img class="w-full h-full object-cover grayscale brightness-200" data-alt="A cinematic, high-resolution view of a lunar landscape viewed through a high-tech starship window. The scene is dominated by dark craters and soft silvery lunar dust under the glow of a distant planet. The composition follows a minimalist sci-fi aesthetic with clean lines and deep blacks, reflecting a sense of cosmic isolation and futuristic security." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpWgTUGU-dmdukGuDqkHDj0xCu4CVJvZGJKDpuu4P49T5JYml64lE-l6tA33YCRzVcF2Jy-4aXh2gsFjJbdRF18uSsz_JwgCTkST2TeARnDWolXDE9NMAgS-pBwzN82CBZwPUldAsHRcB5tB4c3WLf9TmoHu_suT2NiGtYYEElhYFlVuvXCi28zlswV-Nw9jPXRrfiZzgrAMVeVVSsv-WO31F1pSXyHLMTQsMl8Ja0k0zMWoiZQy2C5Q"/>
+</div>
+<script>
+        // Micro-interactions and Notification Logic
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Trigger a notification on action
+                const hud = document.getElementById('notification-hud');
+                const label = this.innerText;
+                
+                const toast = document.createElement('div');
+                toast.className = 'glass-panel p-unit-md rounded-lg border-secondary/40 flex items-start gap-unit-md min-w-[320px] pointer-events-auto animate-in fade-in slide-in-from-right-10';
+                toast.innerHTML = `
+                    <div class="p-unit-xs bg-secondary/20 rounded">
+                        <span class="material-symbols-outlined text-secondary text-xl" data-icon="bolt">bolt</span>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-label-caps text-[10px] text-secondary">ACTION COMMENCED</span>
+                            <span class="font-data-sm text-[9px] text-on-surface-variant opacity-50">JUST NOW</span>
+                        </div>
+                        <p class="text-body-md text-sm text-on-surface leading-snug">${label} sequence broadcasted to network.</p>
+                    </div>
+                `;
+                hud.prepend(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', 'translate-x-full');
+                    setTimeout(() => toast.remove(), 500);
+                }, 4000);
+            });
+        });
+
+        // Simple mouse tracking for a subtle spotlight effect on the background
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.body.style.setProperty('--mouse-x', `${x}%`);
+            document.body.style.setProperty('--mouse-y', `${y}%`);
+        });
+    </script>
+</body></html>
