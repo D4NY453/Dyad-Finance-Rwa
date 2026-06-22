@@ -55,16 +55,10 @@ El contrato Vault consulta la función latestRoundData() de Chainlink. Para llev
 
 # ¿cómo solucionas la liquidez inicial? Nadie va a querer el vETH si no hay usdJ emitido."
 
-Es el clásico problema del huevo y la gallina en DeFi. La estrategia es aprovechar la infraestructura de Arbitrum. Lanzaremos un fondo de liquidez (Pool) concentrado en Uniswap V3 o Camelot DEX (usdJ/USDC). Usaremos una parte de los fondos de la tesorería del protocolo para garantizar liquidez profunda en ese par. Además, los primeros usuarios que acuñen vETH recibirán incentivos (Yield Farming, Airdrops) para compensar el riesgo de ser los primeros en adoptar el tramo volátil."
+Es el clásico problema del huevo y la gallina en DeFi.
 
+La estrategia es aprovechar la infraestructura de Arbitrum. Lanzaremos un fondo de liquidez (Pool) concentrado en Uniswap V3 o Camelot DEX (usdJ/USDC). Usaremos una parte de los fondos de la tesorería del protocolo para garantizar liquidez profunda en ese par. Además, los primeros usuarios que acuñen vETH recibirán incentivos (Yield Farming, Airdrops) para compensar el riesgo de ser los primeros en adoptar el tramo volátil."
 
-# ¿Qué busca? 
-
-Guardar su dinero sin que pierda valor por la volatilidad de las criptomonedas.
-
-# ¿Por qué usaría tu plataforma en lugar de comprar USDT o USDC? 
-
-Porque el usdJ es totalmente descentralizado, transparente y respaldado directamente por Ethereum, sin depender de bancos tradicionales ni empresas centralizadas.
 
 esta plataforma existe para atender a dos tipos de personas al mismo tiempo:
 
@@ -80,11 +74,7 @@ Porque el usdJ es totalmente descentralizado, transparente y respaldado directam
 
 2. El Inversor/Traders (El que usa vETH)
 
-esta plataforma es una herramienta de apalancamiento sin riesgo de liquidación.
-
-# ¿Qué busca? 
-
-Multiplicar sus ganancias si el precio de Ethereum sube.
+esta plataforma es una herramienta de apalancamiento sin riesgo de liquidación  y busca multiplicar sus ganancias si el precio de Ethereum sube.
 
 # ¿Por qué usaría tu plataforma en lugar de ir a Binance y operar con margen? 
 
