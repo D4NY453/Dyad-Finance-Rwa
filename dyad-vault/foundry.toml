@@ -1,0 +1,6 @@
+[profile.default]
+src = "contracts"
+solc = "0.8.35"
+remappings = [
+  "@openzeppelin/contracts/=node_modules/@openzeppelin/contracts/"
+]

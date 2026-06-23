@@ -125,7 +125,7 @@ export function useVault() {
     setProvider(null)
     setSigner(null)
     setAccount("")
-    setBalances({ eth: "0", stable: "0", volatile: "0" })
+    setBalances({ eth: "0", stable: "0", volatile: "0", points: "0", usdc: "0", link: "0" })
   }, [])
 
   const loadBalances = useCallback(async () => {

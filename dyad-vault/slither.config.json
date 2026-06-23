@@ -1,0 +1,8 @@
+{
+  "solc": "/root/.local/bin/solc",
+  "solc_remaps": [
+    "@openzeppelin=/mnt/c/Users/Jose/Documents/UniswapV4/dyad-vault/node_modules/@openzeppelin"
+  ],
+  "solc_args": "--allow-paths /mnt/c/Users/Jose/Documents/UniswapV4/dyad-vault,/mnt/c/Users/Jose/Documents/UniswapV4/dyad-vault/node_modules --base-path /mnt/c/Users/Jose/Documents/UniswapV4/dyad-vault --evm-version istanbul",
+  "compile_force_framework": "solc"
+}

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -15,7 +15,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  *   3. Copia las direcciones → úsalas en LimitOrderLoyaltyHook
  */
 contract MockERC20 is ERC20, Ownable {
-    uint8 private _decimals;
+    uint8 private immutable _decimals;
 
     constructor(
         string memory name_,
