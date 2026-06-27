@@ -158,27 +158,27 @@
 }
 
 @layer base {
-  /* Forced futuristic dark palette for Lunar Vault: cyan + indigo on near-black */
+  /* Forced futuristic dark palette for Lunar Vault: cyan + indigo on pure-black */
   :root {
-    --background: oklch(0.16 0.02 264);
+    --background: oklch(0 0 0); /* Pure black background to match frame background */
     --foreground: oklch(0.97 0.005 264);
-    --card: oklch(0.21 0.025 264);
+    --card: oklch(0.08 0.01 264); /* Deep dark card background for contrast */
     --card-foreground: oklch(0.97 0.005 264);
-    --popover: oklch(0.21 0.025 264);
+    --popover: oklch(0.08 0.01 264);
     --popover-foreground: oklch(0.97 0.005 264);
     --primary: oklch(0.78 0.14 200);
-    --primary-foreground: oklch(0.18 0.02 264);
-    --secondary: oklch(0.27 0.03 264);
+    --primary-foreground: oklch(0.05 0.01 264);
+    --secondary: oklch(0.12 0.01 264);
     --secondary-foreground: oklch(0.97 0.005 264);
-    --muted: oklch(0.27 0.03 264);
-    --muted-foreground: oklch(0.7 0.02 264);
+    --muted: oklch(0.12 0.01 264);
+    --muted-foreground: oklch(0.6 0.01 264);
     --accent: oklch(0.72 0.17 55);
-    --accent-foreground: oklch(0.18 0.02 264);
+    --accent-foreground: oklch(0.05 0.01 264);
     --destructive: oklch(0.62 0.21 18);
-    --border: oklch(0.97 0.01 264 / 8%);
-    --input: oklch(0.97 0.01 264 / 12%);
+    --border: oklch(0.97 0.01 264 / 10%);
+    --input: oklch(0.97 0.01 264 / 15%);
     --ring: oklch(0.78 0.14 200);
-    --radius: 1rem;
+    --radius: 1.25rem;
     --vault-cyan: oklch(0.78 0.14 200);
     --vault-indigo: oklch(0.72 0.17 55);
     --vault-stable: oklch(0.74 0.16 165);

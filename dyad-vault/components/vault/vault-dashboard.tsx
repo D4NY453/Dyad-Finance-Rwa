@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Rocket, ShieldCheck, TrendingUp, AlertTriangle, Wallet, Coins, Home } from "lucide-react"
+import { Rocket, ShieldCheck, TrendingUp, AlertTriangle, Wallet, Coins, Home, Layers } from "lucide-react"
 import { useVault } from "@/hooks/use-vault"
 import { Navbar } from "./navbar-panel"
 import { BalancePanel } from "./balance-panel"
@@ -30,7 +30,86 @@ export function VaultDashboard() {
   } = useVault()
 
   const connected = Boolean(account)
-  const [activeTab, setActiveTab] = useState<'crypto' | 'rwa' | 'portfolio' | 'swap'>('crypto')
+  const [activeSection, setActiveSection] = useState<'crypto' | 'rwa' | 'swap'>('crypto')
+
+  // Smooth Scroll Helper
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) {
+      const offset = 100 // Margen superior para el navbar pegajoso
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = el.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      })
+    }
+  }
+
+  // Detectar la sección activa en el scroll para actualizar el Navbar flotante
+  useEffect(() => {
+    const handleScroll = () => {
+      const cryptoEl = document.getElementById("crypto-section")
+      const rwaEl = document.getElementById("rwa-section")
+      const swapEl = document.getElementById("swap-section")
+
+      if (!cryptoEl || !rwaEl || !swapEl) return
+
+      const scrollPosition = window.scrollY + 200 // Offset de activación
+
+      const rwaTop = rwaEl.offsetTop
+      const swapTop = swapEl.offsetTop
+
+      if (scrollPosition >= swapTop) {
+        setActiveSection('swap')
+      } else if (scrollPosition >= rwaTop) {
+        setActiveSection('rwa')
+      } else {
+        setActiveSection('crypto')
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // Animaciones para las secciones (Scroll Reveal)
+  const sectionRevealVariants = {
+    hidden: { opacity: 0, y: 60 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  }
+
+  // Animación para Stagger de las ActionCards
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.12
+      }
+    }
+  }
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
@@ -54,20 +133,36 @@ export function VaultDashboard() {
       <main className="relative z-10 mx-auto max-w-5xl px-4 pb-24 pt-12">
         {/* Hero */}
         <header className="mb-12 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground backdrop-blur-sm">
+          <motion.span 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground backdrop-blur-sm"
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-vault-cyan shadow-[0_0_8px_var(--vault-cyan)]" aria-hidden="true" />
             Red de pruebas Sepolia
-          </span>
-          <h1 className="mx-auto mt-6 max-w-2xl text-balance text-4xl font-bold tracking-tight md:text-5xl">
+          </motion.span>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="mx-auto mt-6 max-w-2xl text-balance text-4xl font-bold tracking-tight md:text-5xl"
+          >
             Deposita ETH. Acuña{" "}
             <span className="text-vault-stable">estabilidad</span> y{" "}
             <span className="text-vault-indigo">volatilidad</span>.
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-pretty leading-relaxed text-muted-foreground">
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="mx-auto mt-4 max-w-xl text-pretty leading-relaxed text-muted-foreground"
+          >
             La bóveda divide tu depósito en un token estable (usdJ) y un token
-            volátil apalancado (jETH), canjeables por su valor en ETH cuando
-            quieras.
-          </p>
+            volátil apalancado (jETH), canjeables por su valor en ETH cuando quieras.
+          </motion.p>
         </header>
 
         {/* Wrong network banner */}
@@ -86,95 +181,95 @@ export function VaultDashboard() {
           </div>
         )}
 
-        <div className="mb-12">
+        {/* Balance Panel */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mb-12"
+        >
           <BalancePanel
             balances={balances}
             refreshing={refreshing}
             connected={connected}
             onRefresh={loadBalances}
           />
-        </div>
+        </motion.div>
 
-        {/* TABS NAVIGATION */}
-        <div className="mb-10 flex justify-center">
-          <div className="flex rounded-full border border-white/10 bg-black/40 p-1 backdrop-blur-md">
+        {/* STICKY FLOATING QUICK-LINKS BAR */}
+        <div className="sticky top-20 z-40 mb-16 flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.45 }}
+            className="flex rounded-full border border-white/5 bg-black/60 p-1.5 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.4)]"
+          >
             <button
-              onClick={() => setActiveTab('crypto')}
-              className={`relative flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
-                activeTab === 'crypto' ? "text-white" : "text-muted-foreground hover:text-white"
+              onClick={() => scrollToSection("crypto-section")}
+              className={`relative flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+                activeSection === 'crypto' ? "text-white" : "text-muted-foreground hover:text-white"
               }`}
             >
-              {activeTab === 'crypto' && (
+              {activeSection === 'crypto' && (
                 <motion.div
-                  layoutId="mainTabs"
-                  className="absolute inset-0 rounded-full bg-vault-cyan/20 border border-vault-cyan/50 shadow-[0_0_15px_rgba(138,235,255,0.2)]"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  layoutId="activeIndicator"
+                  className="absolute inset-0 rounded-full bg-vault-cyan/15 border border-vault-cyan/40 shadow-[0_0_12px_rgba(138,235,255,0.15)]"
+                  transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
                 />
               )}
-              <Coins className="h-5 w-5 relative z-10" />
+              <Coins className="h-4 w-4 relative z-10" />
               <span className="relative z-10">Bóveda Cripto (L1)</span>
             </button>
 
             <button
-              onClick={() => setActiveTab('rwa')}
-              className={`relative flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
-                activeTab === 'rwa' ? "text-white" : "text-muted-foreground hover:text-white"
+              onClick={() => scrollToSection("rwa-section")}
+              className={`relative flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+                activeSection === 'rwa' ? "text-white" : "text-muted-foreground hover:text-white"
               }`}
             >
-              {activeTab === 'rwa' && (
+              {activeSection === 'rwa' && (
                 <motion.div
-                  layoutId="mainTabs"
-                  className="absolute inset-0 rounded-full bg-vault-indigo/20 border border-vault-indigo/50 shadow-[0_0_15px_rgba(187,201,205,0.2)]"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  layoutId="activeIndicator"
+                  className="absolute inset-0 rounded-full bg-vault-indigo/15 border border-vault-indigo/40 shadow-[0_0_12px_rgba(187,201,205,0.15)]"
+                  transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
                 />
               )}
-              <Home className="h-5 w-5 relative z-10" />
+              <Home className="h-4 w-4 relative z-10" />
               <span className="relative z-10">Bóveda Inmobiliaria (RWA)</span>
             </button>
 
             <button
-              onClick={() => setActiveTab('portfolio')}
-              className={`relative flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
-                activeTab === 'portfolio' ? "text-white" : "text-muted-foreground hover:text-white"
+              onClick={() => scrollToSection("swap-section")}
+              className={`relative flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors ${
+                activeSection === 'swap' ? "text-white" : "text-muted-foreground hover:text-white"
               }`}
             >
-              {activeTab === 'portfolio' && (
+              {activeSection === 'swap' && (
                 <motion.div
-                  layoutId="mainTabs"
-                  className="absolute inset-0 rounded-full bg-white/10 border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  layoutId="activeIndicator"
+                  className="absolute inset-0 rounded-full bg-vault-stable/15 border border-vault-stable/40 shadow-[0_0_12px_rgba(16,185,129,0.15)]"
+                  transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
                 />
               )}
-              <Wallet className="h-5 w-5 relative z-10" />
-              <span className="relative z-10">Mi Billetera</span>
+              <Layers className="h-4 w-4 relative z-10" />
+              <span className="relative z-10">Swap & Wallet</span>
             </button>
-
-            <button
-              onClick={() => setActiveTab('swap')}
-              className={`relative flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${
-                activeTab === 'swap' ? "text-white" : "text-muted-foreground hover:text-white"
-              }`}
-            >
-              {activeTab === 'swap' && (
-                <motion.div
-                  layoutId="mainTabs"
-                  className="absolute inset-0 rounded-full bg-vault-stable/20 border border-vault-stable/50 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-              <span className="relative z-10">⚡ Swap</span>
-            </button>
-          </div>
+          </motion.div>
         </div>
 
         {/* Connect prompt overlay state */}
         {!connected && (
-          <div className="mb-8 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-vault-cyan/30 bg-card/40 px-6 py-10 text-center backdrop-blur-sm">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="mb-12 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-vault-cyan/30 bg-card/40 px-6 py-10 text-center backdrop-blur-sm"
+          >
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-vault-cyan/10 ring-1 ring-vault-cyan/30">
               <Wallet className="h-6 w-6 text-vault-cyan" aria-hidden="true" />
             </div>
             <p className="max-w-sm text-pretty text-muted-foreground">
-              Conecta tu wallet para ver tus saldos e interactuar con la bóveda.
+              Conecta tu wallet para ver tus saldos e interactuar con las bóvedas de Dyad.
             </p>
             <button
               onClick={connectWallet}
@@ -183,106 +278,137 @@ export function VaultDashboard() {
             >
               {connecting ? "Conectando..." : "Conectar Wallet"}
             </button>
-          </div>
+          </motion.div>
         )}
 
-        {/* DYNAMIC CONTENT BASED ON ACTIVE TAB */}
-        <div className="relative min-h-[400px]">
-          <AnimatePresence mode="wait">
-            {activeTab === 'crypto' && (
-              <motion.div
-                key="crypto"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <section
-                  className="grid grid-cols-1 gap-6 md:grid-cols-3"
-                  aria-label="Acciones de la bóveda"
-                >
-                  <ActionCard
-                    title="Entrar a la bóveda"
-                    description="Deposita ETH para acuñar usdJ y jETH automáticamente."
-                    placeholder="0.0 ETH"
-                    cta="Depositar ETH"
-                    loadingLabel="Procesando..."
-                    accent="cyan"
-                    icon={<Rocket className="h-5 w-5" aria-hidden="true" />}
-                    loading={loading.deposit}
-                    disabled={!connected}
-                    maxValue={balances.eth}
-                    maxSymbol="ETH"
-                    onSubmit={(amount) => runAction("deposit", amount)}
-                  />
-                  <ActionCard
-                    title="Retiro seguro"
-                    description="Canjea tus usdJ y la bóveda te devolverá su valor en ETH."
-                    placeholder="0.0 usdJ"
-                    cta="Canjear usdJ"
-                    loadingLabel="Procesando..."
-                    accent="stable"
-                    icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}
-                    loading={loading.redeemStable}
-                    disabled={!connected}
-                    maxValue={balances.stable}
-                    maxSymbol="usdJ"
-                    onSubmit={(amount) => runAction("redeemStable", amount)}
-                  />
-                  <ActionCard
-                    title="Retiro apalancado"
-                    description="Canjea jETH para capturar las ganancias del ETH sobrante."
-                    placeholder="0.0 jETH"
-                    cta="Canjear jETH"
-                    loadingLabel="Procesando..."
-                    accent="indigo"
-                    icon={<TrendingUp className="h-5 w-5" aria-hidden="true" />}
-                    loading={loading.redeemVolatile}
-                    disabled={!connected}
-                    maxValue={balances.volatile}
-                    maxSymbol="jETH"
-                    onSubmit={(amount) => runAction("redeemVolatile", amount)}
-                  />
-                </section>
-              </motion.div>
-            )}
+        {/* SCROLLABLE SECTIONS */}
+        <div className="flex flex-col gap-32">
+          
+          {/* SECTION 1: BÓVEDA CRIPTO */}
+          <motion.section 
+            id="crypto-section" 
+            className="scroll-mt-36"
+            variants={sectionRevealVariants as any}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+          >
+            <div className="mb-8">
+              <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                <Coins className="h-5 w-5 text-vault-cyan" />
+                Bóveda Cripto (L1)
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Acuña usdJ estable o jETH apalancado usando tus reservas de Ethereum.
+              </p>
+            </div>
 
-            {activeTab === 'rwa' && (
-              <motion.div
-                key="rwa"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <RwaPanel balances={balances} />
+            <motion.div 
+              className="grid grid-cols-1 gap-6 md:grid-cols-3"
+              variants={containerVariants as any}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+            >
+              <motion.div variants={cardVariants as any}>
+                <ActionCard
+                  title="Entrar a la bóveda"
+                  description="Deposita ETH para acuñar usdJ y jETH automáticamente."
+                  placeholder="0.0 ETH"
+                  cta="Depositar ETH"
+                  loadingLabel="Procesando..."
+                  accent="cyan"
+                  icon={<Rocket className="h-5 w-5" aria-hidden="true" />}
+                  loading={loading.deposit}
+                  disabled={!connected}
+                  maxValue={balances.eth}
+                  maxSymbol="ETH"
+                  onSubmit={(amount) => runAction("deposit", amount)}
+                />
               </motion.div>
-            )}
-
-            {activeTab === 'portfolio' && (
-              <motion.div
-                key="portfolio"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <PortfolioPanel balances={balances} />
+              
+              <motion.div variants={cardVariants as any}>
+                <ActionCard
+                  title="Retiro seguro"
+                  description="Canjea tus usdJ y la bóveda te devolverá su valor en ETH."
+                  placeholder="0.0 usdJ"
+                  cta="Canjear usdJ"
+                  loadingLabel="Procesando..."
+                  accent="stable"
+                  icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}
+                  loading={loading.redeemStable}
+                  disabled={!connected}
+                  maxValue={balances.stable}
+                  maxSymbol="usdJ"
+                  onSubmit={(amount) => runAction("redeemStable", amount)}
+                />
               </motion.div>
-            )}
 
-            {activeTab === 'swap' && (
-              <motion.div
-                key="swap"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
+              <motion.div variants={cardVariants as any}>
+                <ActionCard
+                  title="Retiro apalancado"
+                  description="Canjea jETH para capturar las ganancias del ETH sobrante."
+                  placeholder="0.0 jETH"
+                  cta="Canjear jETH"
+                  loadingLabel="Procesando..."
+                  accent="indigo"
+                  icon={<TrendingUp className="h-5 w-5" aria-hidden="true" />}
+                  loading={loading.redeemVolatile}
+                  disabled={!connected}
+                  maxValue={balances.volatile}
+                  maxSymbol="jETH"
+                  onSubmit={(amount) => runAction("redeemVolatile", amount)}
+                />
+              </motion.div>
+            </motion.div>
+          </motion.section>
+
+          {/* SECTION 2: BÓVEDA INMOBILIARIA */}
+          <motion.section 
+            id="rwa-section" 
+            className="scroll-mt-36"
+            variants={sectionRevealVariants as any}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            <RwaPanel balances={balances} onRefresh={loadBalances} />
+          </motion.section>
+
+          {/* SECTION 3: SWAP & PORTFOLIO */}
+          <motion.section 
+            id="swap-section" 
+            className="scroll-mt-36"
+            variants={sectionRevealVariants as any}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+          >
+            <div className="mb-8">
+              <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                <Layers className="h-5 w-5 text-vault-stable" />
+                Swap e Información de Cuenta
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Administra tus tokens, realiza intercambios instantáneos y visualiza tu billetera Sepolia.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              {/* Swap Card */}
+              <div className="rounded-2xl border border-border bg-card/40 p-6 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.15)]">
+                <h3 className="text-md font-semibold text-white/80 mb-4">Intercambio Instantáneo</h3>
                 <SwapPanel balances={balances} onRefresh={loadBalances} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </div>
+              
+              {/* Portfolio Card */}
+              <div className="rounded-2xl border border-border bg-card/40 p-6 backdrop-blur-sm h-full shadow-[0_0_15px_rgba(0,0,0,0.15)]">
+                <h3 className="text-md font-semibold text-white/80 mb-4">Composición de Cartera</h3>
+                <PortfolioPanel balances={balances} />
+              </div>
+            </div>
+          </motion.section>
+
         </div>
       </main>
 

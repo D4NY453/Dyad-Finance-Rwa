@@ -15,30 +15,23 @@ type NavbarProps = {
 
 export function Navbar({ account, connecting, onConnect, onDisconnect }: NavbarProps) {
   return (
-    <nav className="relative z-10 flex items-center justify-between border-b border-border px-6 py-5 backdrop-blur-md">
-      <div className="flex items-center gap-3">
-        <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-vault-cyan/10 ring-1 ring-vault-cyan/30">
-          <Moon className="h-5 w-5 text-vault-cyan" aria-hidden="true" />
-          <span className="absolute inset-0 rounded-xl bg-vault-cyan/20 blur-md" aria-hidden="true" />
-        </div>
-        <div className="flex flex-col leading-none mt-1">
-          <span className="font-mono text-3xl font-bold tracking-[0.2em] text-foreground">
-            DYAD
-          </span>
-          <span className="text-sm font-medium tracking-[0.45em] text-vault-cyan">
-            FINANCE
-          </span>
-        </div>
-      </div>
-
+    <nav className="relative z-10 flex items-center justify-end border-b border-white/5 px-6 py-5 backdrop-blur-md">
       <div className="flex items-center gap-4">
+        {/* Botón de claro/oscuro funcional */}
         <button
-          onClick={() => document.documentElement.classList.toggle('dark')}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:bg-vault-cyan/10 hover:text-vault-cyan"
+          onClick={() => {
+            const isDark = document.documentElement.classList.contains('dark')
+            if (isDark) {
+              document.documentElement.classList.remove('dark')
+            } else {
+              document.documentElement.classList.add('dark')
+            }
+          }}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-muted-foreground transition-all hover:bg-white/5 hover:text-white"
           aria-label="Alternar tema"
         >
-          <Sun className="h-5 w-5 hidden dark:block" />
-          <Moon className="h-5 w-5 block dark:hidden" />
+          <Sun className="h-5 w-5 hidden dark:block text-yellow-400" />
+          <Moon className="h-5 w-5 block dark:hidden text-zinc-600" />
         </button>
 
         {account ? (
@@ -50,7 +43,7 @@ export function Navbar({ account, connecting, onConnect, onDisconnect }: NavbarP
             <button
               onClick={onDisconnect}
               aria-label="Desconectar wallet"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-destructive/40 hover:text-destructive"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-muted-foreground transition-colors hover:border-destructive/40 hover:text-destructive"
             >
               <LogOut className="h-4 w-4" aria-hidden="true" />
             </button>

@@ -1,5 +1,5 @@
-import { VaultDashboard } from "@/components/vault/vault-dashboard"
+import { Dyad } from "@/components/vault/Dyad"
 
 export default function Page() {
-  return <VaultDashboard />
+  return <Dyad />
 }
